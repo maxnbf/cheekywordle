@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   LoginButton,
   LoginButtonRow,
@@ -23,12 +23,17 @@ const Login = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   if (isAuthenticated) {
     navigate("/home");
   }
 
   const login = () => {
-    loginUser(dispatch, { username: username, password: password });
+    loginUser(
+      dispatch,
+      { username: username, password: password },
+      location.state?.groupId
+    );
   };
 
   return (

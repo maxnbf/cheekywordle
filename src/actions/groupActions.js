@@ -37,8 +37,8 @@ export const getGroup = (groupKey) => {
     axios
       .get(`http://localhost:3000/api/group/group/${groupKey}`)
       .then((res) => {
-        console.log("joinedGroup");
-        resolve(res);
+        console.log("getting group", groupKey);
+        resolve(res.data);
       })
       .catch((err) => {
         console.log("failed", err);
@@ -50,9 +50,9 @@ export const getGroup = (groupKey) => {
 export const getGroups = () => {
   return new Promise((resolve, reject) => {
     axios
-      .get("http://localhost:3000/api/group/groups")
+      .get("http://localhost:3000/api/user/groups")
       .then((res) => {
-        console.log("joinedGroup");
+        console.log("getting groups for user");
         resolve(res.data);
       })
       .catch((err) => {

@@ -11,10 +11,10 @@ import {
   RegisterInput,
   RegisterLogo,
 } from "./style";
-import logo from "../landing/logo512.png";
+import logo from "../Landing/logo512.png";
 import { registerUser } from "../../../actions/authActions";
 import { useDispatch } from "react-redux";
-import { AuthWidget, AuthWidgetContainer } from "../login/style";
+import { AuthWidget, AuthWidgetContainer } from "../Login/style";
 
 const Register = () => {
   const [username, setUsername] = useState("");

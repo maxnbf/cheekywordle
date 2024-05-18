@@ -1,12 +1,7 @@
 import React from "react";
-import {
-  LandingContainer,
-  LandingLink,
-  LandingLogo,
-  LandingBanner,
-} from "./style";
+import { LandingLink, LandingLogo, LandingBanner } from "./style";
 import logo from "./logo512.png";
-import { AuthWidget, AuthWidgetContainer } from "../login/style";
+import { AuthWidget, AuthWidgetContainer } from "../Login/style";
 
 const Landing = () => {
   return (

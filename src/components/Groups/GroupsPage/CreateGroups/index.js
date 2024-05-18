@@ -15,15 +15,19 @@ const CreateGroups = ({ addGroupToList }) => {
     // Handle the form submission here
     console.log("Group Name:", groupName);
     console.log("Max People:", maxPeople);
-    createGroup(groupName, maxPeople).then((res) => addGroupToList(res));
+    createGroup(groupName, maxPeople).then((res) => {
+      addGroupToList(res);
+      setGroupName("");
+      setMaxPeople("");
+    });
     handleClose();
   };
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        bottom: 0,
+    <div
+      style={{
+        maxWidth: "fit-content",
+        marginInline: "auto",
       }}
     >
       <Button
@@ -74,7 +78,7 @@ const CreateGroups = ({ addGroupToList }) => {
           </Button>
         </Box>
       </Modal>
-    </Box>
+    </div>
   );
 };
 

@@ -13,7 +13,7 @@ import {
   AuthWidget,
   AuthWidgetContainer,
 } from "./style";
-import logo from "../landing/logo512.png";
+import logo from "../Landing/logo512.png";
 import { loginUser } from "../../../actions/authActions";
 
 const Login = () => {

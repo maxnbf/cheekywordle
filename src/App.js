@@ -1,10 +1,10 @@
 import { useState } from "react";
 import "./App.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Game from "./components/GameExperience/Game";
-import Landing from "./components/auth/landing";
-import Register from "./components/auth/register";
-import Login from "./components/auth/login";
+import Game from "./components/Gameplay/Game";
+import Landing from "./components/Auth/Landing";
+import Register from "./components/Auth/Register";
+import Login from "./components/Auth/Login";
 import PrivateRoute from "./components/privateRoute";
 import { signInResponse } from "./redux/authSlice";
 import { useDispatch } from "react-redux";

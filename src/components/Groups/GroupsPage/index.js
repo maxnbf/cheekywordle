@@ -32,15 +32,14 @@ export const GroupsPage = () => {
   useEffect(() => {
     // get all the groups, and then the group they are invited to. If eihter fails, show error.
     getGroups().then((groups) => {
-      getGroup(id).then((group) => {
-        if (
-          !groups.some((groupItem) => groupItem.groupKey === group?.groupKey)
-        ) {
+      if (id && !groups.some((groupItem) => groupItem.groupKey === id)) {
+        getGroup(id).then((group) => {
           setInviteGroup(group);
-        }
-
+          setGroups(groups);
+        });
+      } else {
         setGroups(groups);
-      });
+      }
     });
   }, [id]);
 
@@ -65,7 +64,7 @@ export const GroupsPage = () => {
   };
 
   const sendInvite = (groupKey) => {
-    navigator.clipboard.writeText(`localhost:3007/groups/${groupKey}`);
+    navigator.clipboard.writeText(`localhost:3006/groups/${groupKey}`);
   };
 
   return (

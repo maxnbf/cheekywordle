@@ -10,7 +10,7 @@ export const setAuthToken = (token) => {
   }
 };
 
-export const getTodaysWordle = async () => {
+export const getTodaysWord = async () => {
   const today = new Date();
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -18,11 +18,21 @@ export const getTodaysWordle = async () => {
 
   const formattedDate = `${year}-${month}-${day}`;
   console.log(formattedDate);
-  const url = `https://www.nytimes.com/svc/wordle/v2/${formattedDate}.json`;
 
-  const response = await fetch(url);
-  const data = await response.json();
-  return data.solution;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`http://localhost:3000/wordleAnswer/${formattedDate}`)
+      .then((res) => {
+        console.log(res);
+        resolve(res.data);
+      })
+      .catch((err) => reject(err));
+  });
+  // const url = `https://www.nytimes.com/svc/wordle/v2/${formattedDate}.json`;
+
+  // const response = await fetch(url);
+  // const data = await response.json();
+  // return data.solution;
 };
 
 // POSTS

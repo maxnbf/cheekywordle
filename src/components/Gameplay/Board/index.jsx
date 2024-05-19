@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Box from "../Box";
-import { getTodaysWordle } from "../../../actions/utilActions";
+import { getTodaysWord } from "../../../actions/utilActions";
+import { wordList } from "../../../words";
+import { getTodaysGame, updateTodaysGame } from "../../../actions/gameActions";
 
-//const correct = getTodaysWordle()
-const correct = "CLOWN"
-const words = []
+const words = wordList;
 let defaulBoard = [];
 let defaultLetters = [];
 
@@ -28,12 +28,61 @@ function Board(props) {
   const [win, setWin] = useState(false);
   const [lost, setLost] = useState(false);
   const [message, setMessage] = useState("");
+  const [correct, setCorrect] = useState();
+  const [gameNumber, setGameNumber] = useState();
+
+  useEffect(() => {
+    getTodaysWord().then((res) => {
+      setGameNumber(res.gameNumber);
+      getTodaysGame(res.gameNumber).then((todaysGame) => {
+        if (todaysGame?.guesses) {
+          const todaysBoard = [];
+          todaysGame.guesses.map((guess, index) => {
+            guess = guess.toUpperCase();
+            const sol = res.solution.toUpperCase();
+            const currentWord = [];
+            for (let i = 0; i < 5; i++) {
+              let currentLetter;
+              if (sol[i] === guess[i]) {
+                currentLetter = [guess[i], "C"];
+              } else if (sol.includes(guess[i])) {
+                currentLetter = [guess[i], "E"];
+              } else {
+                currentLetter = [guess[i], "N"];
+              }
+              currentWord.push(currentLetter);
+            }
+            todaysBoard.push(currentWord);
+          });
+          for (let i = todaysGame.guesses.length; i < 6; i++) {
+            todaysBoard.push([]);
+            for (let j = 0; j < 5; j++) {
+              todaysBoard[i].push(["", ""]);
+            }
+          }
+
+          if (
+            todaysGame.guesses[todaysGame.guesses.length - 1] ===
+            res.solution.toLowerCase()
+          ) {
+            setWin(true);
+            setTimeout(() => {
+              setMessage("You WIN");
+            }, 750);
+          }
+          setBoard(todaysBoard);
+          setRow(todaysGame.guesses.length);
+        }
+      });
+      setCorrect(res.solution.toUpperCase());
+    });
+  }, []);
 
   useEffect(() => {
     if (win) {
-      console.log("you win!", row)
+      console.log("you win!", row);
     }
-  }, [win])
+  }, [win]);
 
   useEffect(() => {
     if (win || lost) {
@@ -52,6 +101,7 @@ function Board(props) {
               if (props.letter !== "ENTER") {
                 prevBoard[row][col][0] = props.letter;
                 setCol(col + 1);
+                console.log(prevBoard);
               } else {
                 props.error("Words are 5 letters long!");
                 setTimeout(() => {
@@ -66,6 +116,8 @@ function Board(props) {
                   word += prevBoard[row][i][0];
                 }
                 if (words.includes(word.toLowerCase())) {
+                  // If valid word, send to backend
+                  updateTodaysGame(gameNumber, word.toLowerCase());
                   for (let i = 0; i < 5; i++) {
                     if (correct[i] === prevBoard[row][i][0]) {
                       prevBoard[row][i][1] = "C";

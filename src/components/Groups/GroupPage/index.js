@@ -21,12 +21,7 @@ export const GroupPage = () => {
   useEffect(() => {
     getTodaysWord().then((res) => {
       getTodaysScoresByGroup(res.gameNumber, id).then((todaysScoresByGroup) => {
-        todaysScoresByGroup = {
-          word: res.solution,
-          gameNumber: res.gameNumber,
-          players: sortedScores(todaysScoresByGroup, res.solution),
-        };
-        setTodaysScores(todaysScoresByGroup);
+        setTodaysScores({ word: res.solution, data: todaysScoresByGroup });
       });
     });
   }, []);

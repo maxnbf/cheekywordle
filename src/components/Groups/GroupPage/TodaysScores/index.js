@@ -71,7 +71,7 @@ const TodaysScores = ({ todaysScores }) => {
                   />
                 );
               } else {
-                children = "Hasn't started";
+                children = "Unplayed";
               }
 
               return (

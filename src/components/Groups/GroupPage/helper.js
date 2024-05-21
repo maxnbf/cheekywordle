@@ -8,6 +8,13 @@ export const sortedScores = (todaysScores, correctWord) => {
       return aContainsWord ? -1 : 1;
     }
 
+    if (!aContainsWord && !bContainsWord && a.guesses.length == 0) {
+      return 1;
+    }
+    // if (!aContainsWord && !bContainsWord && b.guesses.length == 0) {
+    //   return -1;
+    // }
+
     if (
       aContainsWord &&
       bContainsWord &&

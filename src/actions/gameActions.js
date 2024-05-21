@@ -49,3 +49,21 @@ export const getTodaysScoresByGroup = (gameNumber, groupKey) => {
       });
   });
 };
+
+export const dispatchWinToGroups = (gameNumber, score) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`http://localhost:3000/api/user/dispatchWinToGroups/`, {
+        gameNumber,
+        score,
+      })
+      .then((res) => {
+        console.log("dispatched", res);
+        resolve();
+      })
+      .catch((err) => {
+        console.log("failed", err);
+        reject(err);
+      });
+  });
+};

@@ -61,3 +61,18 @@ export const getGroups = () => {
       });
   });
 };
+
+export const getAllTimeScoresForGroup = (groupKey) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`http://localhost:3000/api/group/allTimeScores/${groupKey}`)
+      .then((res) => {
+        console.log("getting all time scores for group");
+        resolve(res.data);
+      })
+      .catch((err) => {
+        console.log("failed", err);
+        reject(err);
+      });
+  });
+};

@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import Box from "../Box";
 import { getTodaysWord } from "../../../actions/utilActions";
 import { wordList } from "../../../words";
-import { getTodaysGame, updateTodaysGame } from "../../../actions/gameActions";
+import {
+  dispatchWinToGroups,
+  getTodaysGame,
+  updateTodaysGame,
+} from "../../../actions/gameActions";
 
 const words = wordList;
 let defaulBoard = [];
@@ -30,8 +34,10 @@ function Board(props) {
   const [message, setMessage] = useState("");
   const [correct, setCorrect] = useState();
   const [gameNumber, setGameNumber] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     getTodaysWord().then((res) => {
       setGameNumber(res.gameNumber);
       getTodaysGame(res.gameNumber).then((todaysGame) => {
@@ -75,6 +81,7 @@ function Board(props) {
         }
       });
       setCorrect(res.solution.toUpperCase());
+      setLoading(false);
     });
   }, []);
 
@@ -143,6 +150,7 @@ function Board(props) {
 
                   if (correctLetters === 5) {
                     setWin(true);
+                    dispatchWinToGroups(gameNumber, row);
                     setTimeout(() => {
                       setMessage("You WIN");
                     }, 750);
@@ -166,6 +174,10 @@ function Board(props) {
   useEffect(() => {
     props.letters(letters);
   }, [changed]);
+
+  if (loading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <div className="px-10 py-5 grid gap-y-1 items-center w-100 justify-center">
